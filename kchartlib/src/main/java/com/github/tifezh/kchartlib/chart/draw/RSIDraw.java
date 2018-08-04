@@ -13,7 +13,9 @@ import com.github.tifezh.kchartlib.chart.formatter.ValueFormatter;
 
 /**
  * RSI实现类
- * Created by tifezh on 2016/6/19.
+ *
+ * @author tifezh
+ * @date 2016/6/19
  */
 
 public class RSIDraw implements IChartDraw<IRSI> {

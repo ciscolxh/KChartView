@@ -16,7 +16,9 @@ import com.github.tifezh.kchartlib.chart.formatter.ValueFormatter;
 
 /**
  * macd实现类
- * Created by tifezh on 2016/6/19.
+ *
+ * @author tifezh
+ * @date 2016/6/19
  */
 
 public class MACDDraw implements IChartDraw<IMACD> {
@@ -44,7 +46,7 @@ public class MACDDraw implements IChartDraw<IMACD> {
 
     @Override
     public void drawText(@NonNull Canvas canvas, @NonNull BaseKChartView view, int position, float x, float y) {
-        String text = "";
+        String text;
         IMACD point = (IMACD) view.getItem(position);
         text = "DIF:" + view.formatValue(point.getDif()) + " ";
         canvas.drawText(text, x, y, mDEAPaint);
@@ -73,9 +75,9 @@ public class MACDDraw implements IChartDraw<IMACD> {
 
     /**
      * 画macd
-     * @param canvas
-     * @param x
-     * @param macd
+     * @param canvas 画布
+     * @param x x轴
+     * @param macd macd
      */
     private void drawMACD(Canvas canvas, BaseKChartView view, float x, float macd) {
         float macdy = view.getChildY(macd);
@@ -112,7 +114,7 @@ public class MACDDraw implements IChartDraw<IMACD> {
 
     /**
      * 设置MACD的宽度
-     * @param MACDWidth
+     * @param MACDWidth macd 的宽度
      */
     public void setMACDWidth(float MACDWidth) {
         mMACDWidth = MACDWidth;

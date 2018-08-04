@@ -9,7 +9,9 @@ import com.github.tifezh.kchartlib.chart.BaseKChartView;
 
 /**
  * 画图的基类 根据实体来画图形
- * Created by tifezh on 2016/6/14.
+ *
+ * @author tifezh
+ * @date 2016/6/14
  */
 
 public interface IChartDraw<T> {
@@ -27,8 +29,9 @@ public interface IChartDraw<T> {
     void drawTranslated(@Nullable T lastPoint, @NonNull T curPoint, float lastX, float curX, @NonNull Canvas canvas, @NonNull BaseKChartView view, int position);
 
     /**
-     * @param canvas
-     * @param view
+     * 画出文字
+     * @param canvas c
+     * @param view v
      * @param position 该点的位置
      * @param x        x的起始坐标
      * @param y        y的起始坐标
@@ -38,21 +41,22 @@ public interface IChartDraw<T> {
     /**
      * 获取当前实体中最大的值
      *
-     * @param point
-     * @return
+     * @param point p
+     * @return 最大值
      */
     float getMaxValue(T point);
 
     /**
      * 获取当前实体中最小的值
      *
-     * @param point
-     * @return
+     * @param point p
+     * @return 最小值
      */
     float getMinValue(T point);
 
     /**
      * 获取value格式化器
+     * @return alue格式化器
      */
     IValueFormatter getValueFormatter();
 }

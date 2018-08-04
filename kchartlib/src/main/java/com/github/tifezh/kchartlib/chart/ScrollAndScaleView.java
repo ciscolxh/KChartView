@@ -11,13 +11,22 @@ import android.widget.RelativeLayout;
 
 /**
  * 可以滑动和放大的view
- * Created by tian on 2016/5/3.
+ *
+ * @author tian
+ * @date 2016/5/3
  */
 public abstract class ScrollAndScaleView extends RelativeLayout implements
         GestureDetector.OnGestureListener,
         ScaleGestureDetector.OnScaleGestureListener {
     protected int mScrollX = 0;
+
+    /**
+     * 滚动手势类
+     */
     protected GestureDetectorCompat mDetector;
+    /**
+     * 缩放手势类
+     */
     protected ScaleGestureDetector mScaleDetector;
 
     protected boolean isLongPress = false;
@@ -39,13 +48,11 @@ public abstract class ScrollAndScaleView extends RelativeLayout implements
     private boolean mScaleEnable=true;
 
     public ScrollAndScaleView(Context context) {
-        super(context);
-        init();
+        this(context,null);
     }
 
     public ScrollAndScaleView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs,0);
     }
 
     public ScrollAndScaleView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -198,6 +205,7 @@ public abstract class ScrollAndScaleView extends RelativeLayout implements
                 touch = false;
                 invalidate();
                 break;
+                default:break;
         }
         mMultipleTouch=event.getPointerCount()>1;
         this.mDetector.onTouchEvent(event);
@@ -244,6 +252,7 @@ public abstract class ScrollAndScaleView extends RelativeLayout implements
      *
      * @param scrollX
      */
+    @Override
     public void setScrollX(int scrollX) {
         this.mScrollX = scrollX;
         scrollTo(scrollX, 0);

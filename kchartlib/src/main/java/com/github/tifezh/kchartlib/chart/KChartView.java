@@ -20,13 +20,15 @@ import com.github.tifezh.kchartlib.chart.draw.VolumeDraw;
 
 /**
  * k线图
- * Created by tian on 2016/5/20.
+ *
+ * @author tian
+ * @date 2016/5/20
  */
 public class KChartView extends BaseKChartView {
 
     ProgressBar mProgressBar;
-    private boolean isRefreshing=false;
-    private boolean isLoadMoreEnd=false;
+    private boolean isRefreshing = false;
+    private boolean isLoadMoreEnd = false;
     private boolean mLastScrollEnable;
     private boolean mLastScaleEnable;
 
@@ -55,96 +57,92 @@ public class KChartView extends BaseKChartView {
     }
 
     private void initView() {
-        mProgressBar=new ProgressBar(getContext());
+        mProgressBar = new ProgressBar(getContext());
         LayoutParams layoutParams = new LayoutParams(dp2px(50), dp2px(50));
         layoutParams.addRule(CENTER_IN_PARENT);
-        addView(mProgressBar,layoutParams);
+        addView(mProgressBar, layoutParams);
         mProgressBar.setVisibility(GONE);
-        mVolumeDraw=new VolumeDraw(this);
-        mMACDDraw=new MACDDraw(this);
-        mKDJDraw=new KDJDraw(this);
-        mRSIDraw=new RSIDraw(this);
-        mBOLLDraw=new BOLLDraw(this);
-        mMainDraw=new MainDraw(this);
-        addChildDraw("VOL",mVolumeDraw);
-        addChildDraw("MACD",mMACDDraw);
-        addChildDraw("KDJ", mKDJDraw);
-        addChildDraw("RSI", mRSIDraw);
-        addChildDraw("BOLL",mBOLLDraw);
+        //主图
+        mMainDraw = new MainDraw(this);
+        //交易量深度图
+        mVolumeDraw = new VolumeDraw(this);
+        //副图
+        mMACDDraw = new MACDDraw(this);
+        mKDJDraw = new KDJDraw(this);
+        mRSIDraw = new RSIDraw(this);
+        mBOLLDraw = new BOLLDraw(this);
+
+        addVolumeDraw(mMACDDraw);
+        addVolumeDraw(mKDJDraw);
+        addVolumeDraw(mRSIDraw);
+        addVolumeDraw(mBOLLDraw);
+        //画出主布局
         setMainDraw(mMainDraw);
+        //画出子布局
+        setVolumeDraw(mVolumeDraw);
+
+        setChildDraw(0);
     }
 
+    /**
+     * 初始化自定义属性
+     *
+     * @param attrs attrs
+     */
     private void initAttrs(AttributeSet attrs) {
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.KChartView);
-        if(array!=null)
-        {
+        if (array != null) {
             try {
                 //public
-                setPointWidth(array.getDimension(R.styleable.KChartView_kc_point_width,getDimension(R.dimen.chart_point_width)));
-                setTextSize(array.getDimension(R.styleable.KChartView_kc_text_size,getDimension(R.dimen.chart_text_size)));
-                setTextColor(array.getColor(R.styleable.KChartView_kc_text_color,getColor(R.color.chart_text)));
-                setLineWidth(array.getDimension(R.styleable.KChartView_kc_line_width,getDimension(R.dimen.chart_line_width)));
-                setBackgroundColor(array.getColor(R.styleable.KChartView_kc_background_color,getColor(R.color.chart_background)));
-                setSelectedLineColor(array.getColor(R.styleable.KChartView_kc_selected_line_color,getColor(R.color.chart_text)));
-                setSelectedLineWidth(array.getDimension(R.styleable.KChartView_kc_selected_line_width,getDimension(R.dimen.chart_line_width)));
-                setGridLineWidth(array.getDimension(R.styleable.KChartView_kc_grid_line_width,getDimension(R.dimen.chart_grid_line_width)));
-                setGridLineColor(array.getColor(R.styleable.KChartView_kc_grid_line_color,getColor(R.color.chart_grid_line)));
+                setPointWidth(array.getDimension(R.styleable.KChartView_kc_point_width, getDimension(R.dimen.chart_point_width)));
+                setTextSize(array.getDimension(R.styleable.KChartView_kc_text_size, getDimension(R.dimen.chart_text_size)));
+                setTextColor(array.getColor(R.styleable.KChartView_kc_text_color, getColor(R.color.chart_text)));
+                setLineWidth(array.getDimension(R.styleable.KChartView_kc_line_width, getDimension(R.dimen.chart_line_width)));
+                setBackgroundColor(array.getColor(R.styleable.KChartView_kc_background_color, getColor(R.color.chart_background)));
+                setSelectedLineColor(array.getColor(R.styleable.KChartView_kc_selected_line_color, getColor(R.color.chart_text)));
+                setSelectedLineWidth(array.getDimension(R.styleable.KChartView_kc_selected_line_width, getDimension(R.dimen.chart_line_width)));
+                setGridLineWidth(array.getDimension(R.styleable.KChartView_kc_grid_line_width, getDimension(R.dimen.chart_grid_line_width)));
+                setGridLineColor(array.getColor(R.styleable.KChartView_kc_grid_line_color, getColor(R.color.chart_grid_line)));
                 //macd
-                setMACDWidth(array.getDimension(R.styleable.KChartView_kc_macd_width,getDimension(R.dimen.chart_candle_width)));
-                setDIFColor(array.getColor(R.styleable.KChartView_kc_dif_color,getColor(R.color.chart_ma5)));
-                setDEAColor(array.getColor(R.styleable.KChartView_kc_dea_color,getColor(R.color.chart_ma10)));
-                setMACDColor(array.getColor(R.styleable.KChartView_kc_macd_color,getColor(R.color.chart_ma20)));
+                setMACDWidth(array.getDimension(R.styleable.KChartView_kc_macd_width, getDimension(R.dimen.chart_candle_width)));
+                setDIFColor(array.getColor(R.styleable.KChartView_kc_dif_color, getColor(R.color.chart_ma5)));
+                setDEAColor(array.getColor(R.styleable.KChartView_kc_dea_color, getColor(R.color.chart_ma10)));
+                setMACDColor(array.getColor(R.styleable.KChartView_kc_macd_color, getColor(R.color.chart_ma20)));
                 //kdj
-                setKColor(array.getColor(R.styleable.KChartView_kc_dif_color,getColor(R.color.chart_ma5)));
-                setDColor(array.getColor(R.styleable.KChartView_kc_dea_color,getColor(R.color.chart_ma10)));
-                setJColor(array.getColor(R.styleable.KChartView_kc_macd_color,getColor(R.color.chart_ma20)));
+                setKColor(array.getColor(R.styleable.KChartView_kc_dif_color, getColor(R.color.chart_ma5)));
+                setDColor(array.getColor(R.styleable.KChartView_kc_dea_color, getColor(R.color.chart_ma10)));
+                setJColor(array.getColor(R.styleable.KChartView_kc_macd_color, getColor(R.color.chart_ma20)));
                 //rsi
-                setRSI1Color(array.getColor(R.styleable.KChartView_kc_dif_color,getColor(R.color.chart_ma5)));
-                setRSI2Color(array.getColor(R.styleable.KChartView_kc_dea_color,getColor(R.color.chart_ma10)));
-                setRSI3Color(array.getColor(R.styleable.KChartView_kc_macd_color,getColor(R.color.chart_ma20)));
+                setRSI1Color(array.getColor(R.styleable.KChartView_kc_dif_color, getColor(R.color.chart_ma5)));
+                setRSI2Color(array.getColor(R.styleable.KChartView_kc_dea_color, getColor(R.color.chart_ma10)));
+                setRSI3Color(array.getColor(R.styleable.KChartView_kc_macd_color, getColor(R.color.chart_ma20)));
                 //boll
-                setUpColor(array.getColor(R.styleable.KChartView_kc_dif_color,getColor(R.color.chart_ma5)));
-                setMbColor(array.getColor(R.styleable.KChartView_kc_dea_color,getColor(R.color.chart_ma10)));
-                setDnColor(array.getColor(R.styleable.KChartView_kc_macd_color,getColor(R.color.chart_ma20)));
+                setUpColor(array.getColor(R.styleable.KChartView_kc_dif_color, getColor(R.color.chart_ma5)));
+                setMbColor(array.getColor(R.styleable.KChartView_kc_dea_color, getColor(R.color.chart_ma10)));
+                setDnColor(array.getColor(R.styleable.KChartView_kc_macd_color, getColor(R.color.chart_ma20)));
                 //main
-                setMa5Color(array.getColor(R.styleable.KChartView_kc_dif_color,getColor(R.color.chart_ma5)));
-                setMa10Color(array.getColor(R.styleable.KChartView_kc_dea_color,getColor(R.color.chart_ma10)));
-                setMa20Color(array.getColor(R.styleable.KChartView_kc_macd_color,getColor(R.color.chart_ma20)));
-                setCandleWidth(array.getDimension(R.styleable.KChartView_kc_candle_width,getDimension(R.dimen.chart_candle_width)));
-                setCandleLineWidth(array.getDimension(R.styleable.KChartView_kc_candle_line_width,getDimension(R.dimen.chart_candle_line_width)));
-                setSelectorBackgroundColor(array.getColor(R.styleable.KChartView_kc_selector_background_color,getColor(R.color.chart_selector)));
-                setSelectorTextSize(array.getDimension(R.styleable.KChartView_kc_selector_text_size,getDimension(R.dimen.chart_selector_text_size)));
-                setCandleSolid(array.getBoolean(R.styleable.KChartView_kc_candle_solid,true));
-                //tab
-                mKChartTabView.setIndicatorColor(array.getColor(R.styleable.KChartView_kc_tab_indicator_color,getColor(R.color.chart_tab_indicator)));
-                mKChartTabView.setBackgroundColor(array.getColor(R.styleable.KChartView_kc_tab_background_color,getColor(R.color.chart_tab_background)));
-                ColorStateList colorStateList = array.getColorStateList(R.styleable.KChartView_kc_tab_text_color);
-                if(colorStateList==null)
-                {
-                    mKChartTabView.setTextColor(ContextCompat.getColorStateList(getContext(),R.color.tab_text_color_selector));
-                }
-                else {
-                    mKChartTabView.setTextColor(colorStateList);
-                }
-            }
-            catch (Exception e)
-            {
+                setMa5Color(array.getColor(R.styleable.KChartView_kc_dif_color, getColor(R.color.chart_ma5)));
+                setMa10Color(array.getColor(R.styleable.KChartView_kc_dea_color, getColor(R.color.chart_ma10)));
+                setMa20Color(array.getColor(R.styleable.KChartView_kc_macd_color, getColor(R.color.chart_ma20)));
+                setCandleWidth(array.getDimension(R.styleable.KChartView_kc_candle_width, getDimension(R.dimen.chart_candle_width)));
+                setCandleLineWidth(array.getDimension(R.styleable.KChartView_kc_candle_line_width, getDimension(R.dimen.chart_candle_line_width)));
+                setSelectorBackgroundColor(array.getColor(R.styleable.KChartView_kc_selector_background_color, getColor(R.color.chart_selector)));
+                setSelectorTextSize(array.getDimension(R.styleable.KChartView_kc_selector_text_size, getDimension(R.dimen.chart_selector_text_size)));
+                setCandleSolid(array.getBoolean(R.styleable.KChartView_kc_candle_solid, true));
+            } catch (Exception e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 array.recycle();
             }
         }
     }
 
-    private float getDimension(@DimenRes int resId)
-    {
+    private float getDimension(@DimenRes int resId) {
         return getResources().getDimension(resId);
     }
 
-    private int getColor(@ColorRes int resId)
-    {
-        return ContextCompat.getColor(getContext(),resId);
+    private int getColor(@ColorRes int resId) {
+        return ContextCompat.getColor(getContext(), resId);
     }
 
     @Override
@@ -156,29 +154,24 @@ public class KChartView extends BaseKChartView {
     public void onRightSide() {
     }
 
-    public void showLoading()
-    {
-        if(!isLoadMoreEnd &&!isRefreshing)
-        {
-            isRefreshing=true;
-            if(mProgressBar!=null)
-            {
+    public void showLoading() {
+        if (!isLoadMoreEnd && !isRefreshing) {
+            isRefreshing = true;
+            if (mProgressBar != null) {
                 mProgressBar.setVisibility(View.VISIBLE);
             }
-            if(mRefreshListener!=null)
-            {
+            if (mRefreshListener != null) {
                 mRefreshListener.onLoadMoreBegin(this);
             }
-            mLastScaleEnable =isScaleEnable();
-            mLastScrollEnable=isScrollEnable();
+            mLastScaleEnable = isScaleEnable();
+            mLastScrollEnable = isScrollEnable();
             super.setScrollEnable(false);
             super.setScaleEnable(false);
         }
     }
 
-    private void hideLoading(){
-        if(mProgressBar!=null)
-        {
+    private void hideLoading() {
+        if (mProgressBar != null) {
             mProgressBar.setVisibility(View.GONE);
         }
         super.setScrollEnable(mLastScrollEnable);
@@ -188,19 +181,17 @@ public class KChartView extends BaseKChartView {
     /**
      * 刷新完成
      */
-    public void refreshComplete()
-    {
-        isRefreshing=false;
+    public void refreshComplete() {
+        isRefreshing = false;
         hideLoading();
     }
 
     /**
      * 刷新完成，没有数据
      */
-    public void refreshEnd()
-    {
-        isLoadMoreEnd =true;
-        isRefreshing=false;
+    public void refreshEnd() {
+        isLoadMoreEnd = true;
+        isRefreshing = false;
         hideLoading();
     }
 
@@ -208,12 +199,13 @@ public class KChartView extends BaseKChartView {
      * 重置加载更多
      */
     public void resetLoadMoreEnd() {
-        isLoadMoreEnd=false;
+        isLoadMoreEnd = false;
     }
 
-    public interface KChartRefreshListener{
+    public interface KChartRefreshListener {
         /**
          * 加载更多
+         *
          * @param chart
          */
         void onLoadMoreBegin(KChartView chart);
@@ -221,8 +213,7 @@ public class KChartView extends BaseKChartView {
 
     @Override
     public void setScaleEnable(boolean scaleEnable) {
-        if(isRefreshing)
-        {
+        if (isRefreshing) {
             throw new IllegalStateException("请勿在刷新状态设置属性");
         }
         super.setScaleEnable(scaleEnable);
@@ -231,8 +222,7 @@ public class KChartView extends BaseKChartView {
 
     @Override
     public void setScrollEnable(boolean scrollEnable) {
-        if(isRefreshing)
-        {
+        if (isRefreshing) {
             throw new IllegalStateException("请勿在刷新状态设置属性");
         }
         super.setScrollEnable(scrollEnable);
@@ -261,11 +251,13 @@ public class KChartView extends BaseKChartView {
 
     /**
      * 设置MACD的宽度
+     *
      * @param MACDWidth
      */
     public void setMACDWidth(float MACDWidth) {
         mMACDDraw.setMACDWidth(MACDWidth);
     }
+
     /**
      * 设置up颜色
      */
@@ -275,6 +267,7 @@ public class KChartView extends BaseKChartView {
 
     /**
      * 设置mb颜色
+     *
      * @param color
      */
     public void setMbColor(int color) {
@@ -299,7 +292,7 @@ public class KChartView extends BaseKChartView {
      * 设置D颜色
      */
     public void setDColor(int color) {
-       mKDJDraw.setDColor(color);
+        mKDJDraw.setDColor(color);
     }
 
     /**
@@ -311,6 +304,7 @@ public class KChartView extends BaseKChartView {
 
     /**
      * 设置ma5颜色
+     *
      * @param color
      */
     public void setMa5Color(int color) {
@@ -320,6 +314,7 @@ public class KChartView extends BaseKChartView {
 
     /**
      * 设置ma10颜色
+     *
      * @param color
      */
     public void setMa10Color(int color) {
@@ -329,6 +324,7 @@ public class KChartView extends BaseKChartView {
 
     /**
      * 设置ma20颜色
+     *
      * @param color
      */
     public void setMa20Color(int color) {
@@ -337,14 +333,16 @@ public class KChartView extends BaseKChartView {
 
     /**
      * 设置选择器文字大小
+     *
      * @param textSize
      */
-    public void setSelectorTextSize(float textSize){
+    public void setSelectorTextSize(float textSize) {
         mMainDraw.setSelectorTextSize(textSize);
     }
 
     /**
      * 设置选择器背景
+     *
      * @param color
      */
     public void setSelectorBackgroundColor(int color) {
@@ -353,6 +351,7 @@ public class KChartView extends BaseKChartView {
 
     /**
      * 设置蜡烛宽度
+     *
      * @param candleWidth
      */
     public void setCandleWidth(float candleWidth) {
@@ -361,6 +360,7 @@ public class KChartView extends BaseKChartView {
 
     /**
      * 设置蜡烛线宽度
+     *
      * @param candleLineWidth
      */
     public void setCandleLineWidth(float candleLineWidth) {

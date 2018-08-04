@@ -22,7 +22,9 @@ import java.util.List;
 
 /**
  * 主图的实现类
- * Created by tifezh on 2016/6/14.
+ *
+ * @author tifezh
+ * @date 2016/6/14
  */
 
 public class MainDraw implements IChartDraw<ICandle>{
@@ -148,8 +150,8 @@ public class MainDraw implements IChartDraw<ICandle>{
         float textHeight = metrics.descent - metrics.ascent;
 
         int index = view.getSelectedIndex();
-        float padding = ViewUtil.Dp2Px(mContext, 5);
-        float margin = ViewUtil.Dp2Px(mContext, 5);
+        float padding = ViewUtil.dp2px(mContext, 5);
+        float margin = ViewUtil.dp2px(mContext, 5);
         float width = 0;
         float left;
         float top = margin+view.getTopPadding();

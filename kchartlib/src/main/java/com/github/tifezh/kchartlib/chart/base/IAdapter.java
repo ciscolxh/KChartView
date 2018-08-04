@@ -7,14 +7,16 @@ import java.util.Date;
 
 /**
  * 数据适配器
- * Created by tifezh on 2016/6/14.
+ *
+ * @author tifezh
+ * @date 2016/6/14
  */
 
 public interface IAdapter {
     /**
      * 获取点的数目
      *
-     * @return
+     * @return 点的数目
      */
     int getCount();
 
@@ -29,8 +31,8 @@ public interface IAdapter {
     /**
      * 通过序号获取时间
      *
-     * @param position
-     * @return
+     * @param position position
+     * @return date
      */
     Date getDate(int position);
 

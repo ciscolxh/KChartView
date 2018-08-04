@@ -27,6 +27,7 @@ import java.util.List;
 /**
  * 分时图
  * 简单的分时图示例 更丰富的需求可能需要在此基础上再作修改
+ * @author tian
  */
 public class MinuteChartView extends View implements GestureDetector.OnGestureListener {
 
@@ -131,6 +132,7 @@ public class MinuteChartView extends View implements GestureDetector.OnGestureLi
                 isLongPress = false;
                 invalidate();
                 break;
+                default:break;
         }
         return true;
     }
@@ -207,7 +209,9 @@ public class MinuteChartView extends View implements GestureDetector.OnGestureLi
                          float yesClosePrice){
         this.mFirstStartTime = startTime;
         this.mSecondEndTime = endTime;
-        if(mFirstStartTime.getTime()>=mSecondEndTime.getTime()) throw new IllegalStateException("开始时间不能大于结束时间");
+        if(mFirstStartTime.getTime()>=mSecondEndTime.getTime()) {
+            throw new IllegalStateException("开始时间不能大于结束时间");
+        }
         mTotalTime=mSecondEndTime.getTime()-mFirstStartTime.getTime();
         if(firstEndTime!=null&&secondStartTime!=null) {
             this.mFirstEndTime = firstEndTime;

@@ -25,8 +25,9 @@
             android:layout_height="match_parent"
             android:text="切屏"
             android:textColor="@color/chart_white"
-            android:layout_alignParentRight="true"
-            android:paddingRight="15dp"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="15dp"
+            android:paddingStart="0dp"
             android:gravity="center" />
     </RelativeLayout>
 </LinearLayout>

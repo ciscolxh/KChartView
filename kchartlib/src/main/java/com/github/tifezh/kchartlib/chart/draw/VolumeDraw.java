@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import com.github.tifezh.kchartlib.R;
 import com.github.tifezh.kchartlib.chart.BaseKChartView;
@@ -16,7 +17,9 @@ import com.github.tifezh.kchartlib.chart.formatter.BigValueFormatter;
 import com.github.tifezh.kchartlib.utils.ViewUtil;
 
 /**
- * Created by hjm on 2017/11/14 17:49.
+ *
+ * @author hjm
+ * @date 2017/11/14 17:49
  */
 
 public class VolumeDraw implements IChartDraw<IVolume> {
@@ -31,7 +34,7 @@ public class VolumeDraw implements IChartDraw<IVolume> {
         Context context = view.getContext();
         mRedPaint.setColor(ContextCompat.getColor(context, R.color.chart_red));
         mGreenPaint.setColor(ContextCompat.getColor(context, R.color.chart_green));
-        pillarWidth = ViewUtil.Dp2Px(context, 4);
+        pillarWidth = ViewUtil.dp2px(context, 4);
     }
 
     @Override
@@ -40,8 +43,8 @@ public class VolumeDraw implements IChartDraw<IVolume> {
             @NonNull Canvas canvas, @NonNull BaseKChartView view, int position) {
 
         drawHistogram(canvas, curPoint, lastPoint, curX, view, position);
-        view.drawChildLine(canvas, ma5Paint, lastX, lastPoint.getMA5Volume(), curX, curPoint.getMA5Volume());
-        view.drawChildLine(canvas, ma10Paint, lastX, lastPoint.getMA10Volume(), curX, curPoint.getMA10Volume());
+        view.drawVolumeLine(canvas, ma5Paint, lastX, lastPoint.getMA5Volume(), curX, curPoint.getMA5Volume());
+        view.drawVolumeLine(canvas, ma10Paint, lastX, lastPoint.getMA10Volume(), curX, curPoint.getMA10Volume());
     }
 
     private void drawHistogram(
@@ -49,9 +52,10 @@ public class VolumeDraw implements IChartDraw<IVolume> {
             BaseKChartView view, int position) {
 
         float r = pillarWidth / 2;
-        float top = view.getChildY(curPoint.getVolume());
-        int bottom = view.getChildRect().bottom;
-        if (curPoint.getClosePrice() >= curPoint.getOpenPrice()) {//涨
+        float top = view.getVolumeY(curPoint.getVolume());
+        int bottom = view.getVolumeRect().bottom;
+        //涨
+        if (curPoint.getClosePrice() >= curPoint.getOpenPrice()) {
             canvas.drawRect(curX - r, top, curX + r, bottom, mRedPaint);
         } else {
             canvas.drawRect(curX - r, top, curX + r, bottom, mGreenPaint);

@@ -2,7 +2,9 @@ package com.github.tifezh.kchartlib.chart.base;
 
 /**
  * Value格式化接口
- * Created by tifezh on 2016/6/21.
+ *
+ * @author tifezh
+ * @date 2016/6/21
  */
 
 public interface IValueFormatter {

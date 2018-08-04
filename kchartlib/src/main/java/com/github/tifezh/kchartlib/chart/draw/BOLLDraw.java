@@ -13,7 +13,9 @@ import com.github.tifezh.kchartlib.chart.formatter.ValueFormatter;
 
 /**
  * BOLL实现类
- * Created by tifezh on 2016/6/19.
+ *
+ * @author tifezh
+ * @date 2016/6/19
  */
 
 public class BOLLDraw implements IChartDraw<IBOLL> {
@@ -35,7 +37,7 @@ public class BOLLDraw implements IChartDraw<IBOLL> {
 
     @Override
     public void drawText(@NonNull Canvas canvas, @NonNull BaseKChartView view, int position, float x, float y) {
-        String text = "";
+        String text;
         IBOLL point = (IBOLL) view.getItem(position);
         text = "UP:" + view.formatValue(point.getUp()) + " ";
         canvas.drawText(text, x, y, mUpPaint);
@@ -77,7 +79,7 @@ public class BOLLDraw implements IChartDraw<IBOLL> {
 
     /**
      * 设置mb颜色
-     * @param color
+     * @param color color
      */
     public void setMbColor(int color) {
         mMbPaint.setColor(color);

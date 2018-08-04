@@ -1,5 +1,6 @@
-package com.github.tifezh.kchartlib.chart;
+package com.github.tifezh.kchartlib.chart.unuse;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -15,31 +16,35 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.tifezh.kchartlib.R;
+import com.github.tifezh.kchartlib.chart.TabView;
 import com.github.tifezh.kchartlib.utils.ViewUtil;
 
 
 /**
  * K线图中间位置的TabBar
- * Created by tifezh on 2016/5/17.
+ *
+ * @author tifezh
+ * @date 2016/5/17
  */
 public class KChartTabView extends RelativeLayout implements View.OnClickListener {
 
     LinearLayout mLlContainer;
-    TextView mTvFullScreen;
+    TextView mTvFullScreen = (TextView) findViewById(R.id.tv_fullScreen);
     private TabSelectListener mTabSelectListener = null;
-    //当前选择的index
+    /**
+     * 当前选择的index
+     */
     private int mSelectedIndex = 0;
     private ColorStateList mColorStateList;
     private int mIndicatorColor;
 
     public KChartTabView(Context context) {
-        super(context);
-        init();
+        this(context,null);
+
     }
 
     public KChartTabView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs,0);
     }
 
     public KChartTabView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -48,12 +53,14 @@ public class KChartTabView extends RelativeLayout implements View.OnClickListene
     }
 
     private void init() {
+        @SuppressLint("InflateParams")
         View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_tab, null, false);
-        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewUtil.Dp2Px(getContext(), 30));
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewUtil.dp2px(getContext(), 0));
         view.setLayoutParams(layoutParams);
         addView(view);
-        mLlContainer = (LinearLayout) findViewById(R.id.ll_container);
-        mTvFullScreen = (TextView) findViewById(R.id.tv_fullScreen);
+        mLlContainer = findViewById(R.id.ll_container);
+        //切换横竖屏
+        mTvFullScreen = findViewById(R.id.tv_fullScreen);
         mTvFullScreen.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +83,7 @@ public class KChartTabView extends RelativeLayout implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        //这个是TabView设置选中状态的
         if (mSelectedIndex >= 0 && mSelectedIndex < mLlContainer.getChildCount()) {
             mLlContainer.getChildAt(mSelectedIndex).setSelected(false);
         }

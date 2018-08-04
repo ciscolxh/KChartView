@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.github.tifezh.kchartlib.R;
 
 /**
- * Created by tifezh on 2017/6/30.
+ * TabView   为带选择器的View
+ * @author tifezh
+ * @date 2017/6/30
  */
 
 public class TabView extends RelativeLayout{
@@ -30,7 +32,7 @@ public class TabView extends RelativeLayout{
     public TabView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         addView(LayoutInflater.from(getContext()).inflate(R.layout.item_tab, null));
-        mTextView= (TextView) findViewById(R.id.tab_text);
+        mTextView= findViewById(R.id.tab_text);
         mIndicator=findViewById(R.id.indicator);
     }
 

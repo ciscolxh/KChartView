@@ -26,16 +26,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.setClass(this,ExampleActivity.class);
                 intent.putExtra("type",0);
                 break;
+
             case R.id.btn_style2:
                 intent.setClass(this,ExampleActivity.class);
                 intent.putExtra("type",1);
                 break;
+
             case R.id.btn_loadmore:
                 intent.setClass(this,LoadMoreActivity.class);
                 break;
             case R.id.btn_minute:
                 intent.setClass(this,MinuteChartActivity.class);
                 break;
+                default:return;
         }
         startActivity(intent);
     }

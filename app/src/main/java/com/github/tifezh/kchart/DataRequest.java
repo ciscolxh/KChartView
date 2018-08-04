@@ -17,7 +17,9 @@ import java.util.Random;
 
 /**
  * 模拟网络请求
- * Created by tifezh on 2017/7/3.
+ *
+ * @author tifezh
+ * @date 2017/7/3
  */
 
 public class DataRequest {
@@ -118,26 +120,26 @@ public class DataRequest {
      * 生成随机曲线
      */
     private static void randomLine(List<MinuteLineEntity> list) {
-        float STEP_MAX = 0.9f;
-        float STEP_CHANGE = 1f;
-        float HEIGHT_MAX = 200;
+        float stepMax = 0.9f;
+        float stepChange = 1f;
+        float heightMax = 200;
 
-        float height = (float) (Math.random() * HEIGHT_MAX);
-        float slope = (float) ((Math.random() * STEP_MAX) * 2 - STEP_MAX);
+        float height = (float) (Math.random() * heightMax);
+        float slope = (float) ((Math.random() * stepMax) * 2 - stepMax);
 
         for (int x = 0; x < list.size(); x++) {
             height += slope;
-            slope += (Math.random() * STEP_CHANGE) * 2 - STEP_CHANGE;
+            slope += (Math.random() * stepChange) * 2 - stepChange;
 
-            if (slope > STEP_MAX) {
-                slope = STEP_MAX;
+            if (slope > stepMax) {
+                slope = stepMax;
             }
-            if (slope < -STEP_MAX) {
-                slope = -STEP_MAX;
+            if (slope < -stepMax) {
+                slope = -stepMax;
             }
 
-            if (height > HEIGHT_MAX) {
-                height = HEIGHT_MAX;
+            if (height > heightMax) {
+                height = heightMax;
                 slope *= -1;
             }
             if (height < 0) {

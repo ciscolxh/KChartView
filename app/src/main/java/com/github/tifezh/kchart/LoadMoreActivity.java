@@ -21,7 +21,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by tifezh on 2017/7/3.
+ *
+ * @author tifezh
+ * @date 2017/7/3
  */
 
 public class LoadMoreActivity extends AppCompatActivity implements KChartView.KChartRefreshListener {

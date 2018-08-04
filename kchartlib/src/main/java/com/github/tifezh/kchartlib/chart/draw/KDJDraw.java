@@ -13,7 +13,9 @@ import com.github.tifezh.kchartlib.chart.formatter.ValueFormatter;
 
 /**
  * KDJ实现类
- * Created by tifezh on 2016/6/19.
+ *
+ * @author tifezh
+ * @date 2016/6/19
  */
 
 public class KDJDraw implements IChartDraw<IKDJ> {
@@ -23,6 +25,7 @@ public class KDJDraw implements IChartDraw<IKDJ> {
     private Paint mJPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public KDJDraw(BaseKChartView view) {
+
     }
 
     @Override
@@ -32,9 +35,10 @@ public class KDJDraw implements IChartDraw<IKDJ> {
         view.drawChildLine(canvas, mJPaint, lastX, lastPoint.getJ(), curX, curPoint.getJ());
     }
 
+
     @Override
     public void drawText(@NonNull Canvas canvas, @NonNull BaseKChartView view, int position, float x, float y) {
-        String text = "";
+        String text;
         IKDJ point = (IKDJ) view.getItem(position);
         text = "K:" + view.formatValue(point.getK()) + " ";
         canvas.drawText(text, x, y, mKPaint);
